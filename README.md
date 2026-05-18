@@ -4,7 +4,11 @@ Payroll Rule Diff Local is an offline compliance-rule replay gate for payroll sy
 
 The project uses synthetic payroll data only. It does not call external payroll systems, model APIs, cloud signing services, or hosted databases.
 
-## Capabilities
+## Decision surface
+
+Offline payroll rule diff and replay gate with signed local artifacts.
+
+## Evaluator shape
 
 - Deterministic fixtures for Mexico, Italy, United Kingdom, Philippines, and Brazil-style payroll scenarios.
 - Typed rule artifacts with provenance hashes, interpreter versioning, parent hashes, content hashes, and local Ed25519 signatures.
@@ -13,7 +17,7 @@ The project uses synthetic payroll data only. It does not call external payroll 
 - Static light/dark dashboard, Markdown impact report, JSONL tool loop, benchmark, and demo-pack export.
 - Verifier that checks registry signatures, replay coverage, performance gates, dashboard/report artifacts, and database persistence.
 
-## Quickstart
+## Quick path
 
 ```bash
 uv sync
@@ -26,7 +30,14 @@ uv run payroll-rule-diff dashboard
 uv run payroll-rule-diff benchmark --iterations 100
 ```
 
-## Release Gate
+## Materialized results
+
+- `outputs/summary.json` for headline metrics and gate status
+- `outputs/reports.json` for per-case results
+- `outputs/dashboard.html` for visual inspection
+- `outputs/demo-pack.zip` or `outputs/demo_pack/` for portable review
+
+## Acceptance checks
 
 ```bash
 uv run ruff check .
@@ -35,4 +46,6 @@ uv run payroll-rule-diff verify
 uv run payroll-rule-diff benchmark --iterations 100
 ```
 
-Generated data, runtime outputs, registry artifacts, local signing keys, run stores, caches, and virtual environments are ignored by git.
+## Repo boundary
+
+`Payroll Rule Diff Local` is built for local reproduction: deterministic inputs enter the run, deterministic evidence comes out, and private data stays outside the repo.
